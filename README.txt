@@ -1,5 +1,9 @@
 Repository for JointConstrainedLearning (EMNLP'20)
 
+git clone https://github.com/why2011btv/JointConstrainedLearning.git
+conda env create -n conda-env -f environment.yml
+pip install requirements.txt
+
 mkdir model_params
 cd model_params
 mkdir HiEve_best
