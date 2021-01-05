@@ -1,2 +1,4 @@
 runs/*
 *.pt
+rst_file/*
+output_redirect/*
