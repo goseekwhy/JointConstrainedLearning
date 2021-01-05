@@ -11,7 +11,7 @@ Understanding natural language involves recognizing how multiple event mentions 
 </p>
 
 ## How to run the code
-### Environment et al.
+### Environment Setup et al.
 ```
 git clone https://github.com/why2011btv/JointConstrainedLearning.git
 conda env create -n conda-env -f environment.yml
