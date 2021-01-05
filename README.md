@@ -20,16 +20,21 @@ cd ..
 ```
 ### Running experiments 
 `python3 main.py gpu_0 batch_16 0.0000001 0920_0.rst epoch_40 <SETTING> <LOSS> <FINETUNE>`
+
 SETTING: choose from "MATRES", "HiEve", "Joint"
+
 LOSS: choose from "add_loss_0", "add_loss_1"
+
 FINETUNE: choose from "finetune_0", "finetune_1"
 
 ## Reference
-```@inproceedings{WCZR20,
+```
+@inproceedings{WCZR20,
     author = {Haoyu Wang and Muhao Chen and Hongming Zhang and Dan Roth},
     title = {{Joint Constrained Learning for Event-Event Relation Extraction}},
     booktitle = {Proc. of the Conference on Empirical Methods in Natural Language Processing (EMNLP)},
     year = {2020},
     url = "https://cogcomp.seas.upenn.edu/papers/WCZR20.pdf",
     funding = {KAIROS},
-}```
+}
+```
