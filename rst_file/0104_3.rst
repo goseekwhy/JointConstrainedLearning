@@ -1,0 +1,16 @@
+  Dev best:
+  MATRES best micro F1: 0.773
+  MATRES best confusion matrix:
+[[2685  299    6  243]
+ [ 300 1778    3  182]
+ [ 118   73    1   40]
+ [ 297  256    0  123]]
+Test result:
+  P: 0.746
+  R: 0.753
+  F1: 0.749
+  Confusion Matrix
+[[340  34   1  37]
+ [ 36 191   1  35]
+ [  9  13   0   8]
+ [ 61  26   0  26]]

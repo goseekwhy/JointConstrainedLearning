@@ -23,7 +23,7 @@ mkdir HiEve_best
 mkdir MATRES_best
 cd ..
 ```
-### Running experiments 
+### Running experiments in the paper
 `python3 main.py <DEVICE_ID> <BATCH_SIZE> <LEARNING_RATE> <RESULT_FILE> <EPOCH> <SETTING> <LOSS> <FINETUNE>`
 
 `<DEVICE_ID>`: choose from "gpu_0", "gpu_1", "gpu_5,6,7", etc.
