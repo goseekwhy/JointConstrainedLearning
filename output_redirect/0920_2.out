@@ -1,59 +1,0 @@
-nohup: ignoring input
-  0%|          | 0/100 [00:00<?, ?it/s]  1%|          | 1/100 [00:00<00:35,  2.76it/s]  2%|▏         | 2/100 [00:00<00:33,  2.90it/s]  4%|▍         | 4/100 [00:01<00:30,  3.16it/s]  6%|▌         | 6/100 [00:01<00:24,  3.92it/s]  7%|▋         | 7/100 [00:02<00:33,  2.76it/s]  8%|▊         | 8/100 [00:02<00:29,  3.10it/s]  9%|▉         | 9/100 [00:02<00:24,  3.69it/s] 10%|█         | 10/100 [00:02<00:23,  3.90it/s] 11%|█         | 11/100 [00:02<00:22,  3.92it/s] 12%|█▏        | 12/100 [00:03<00:19,  4.49it/s] 14%|█▍        | 14/100 [00:04<00:30,  2.85it/s] 16%|█▌        | 16/100 [00:04<00:22,  3.76it/s] 17%|█▋        | 17/100 [00:04<00:19,  4.36it/s] 18%|█▊        | 18/100 [00:04<00:19,  4.17it/s] 19%|█▉        | 19/100 [00:05<00:31,  2.56it/s] 20%|██        | 20/100 [00:05<00:24,  3.30it/s] 22%|██▏       | 22/100 [00:05<00:18,  4.17it/s] 23%|██▎       | 23/100 [00:05<00:15,  4.97it/s] 24%|██▍       | 24/100 [00:06<00:13,  5.44it/s] 25%|██▌       | 25/100 [00:06<00:17,  4.31it/s] 26%|██▌       | 26/100 [00:06<00:18,  3.92it/s] 28%|██▊       | 28/100 [00:07<00:16,  4.49it/s] 30%|███       | 30/100 [00:07<00:12,  5.60it/s] 31%|███       | 31/100 [00:07<00:13,  5.30it/s] 32%|███▏      | 32/100 [00:07<00:11,  5.81it/s] 33%|███▎      | 33/100 [00:09<00:36,  1.81it/s] 35%|███▌      | 35/100 [00:10<00:41,  1.58it/s] 37%|███▋      | 37/100 [00:15<01:14,  1.18s/it] 38%|███▊      | 38/100 [00:18<01:49,  1.77s/it] 39%|███▉      | 39/100 [00:20<01:45,  1.72s/it] 41%|████      | 41/100 [00:20<01:12,  1.23s/it] 42%|████▏     | 42/100 [00:22<01:24,  1.45s/it] 43%|████▎     | 43/100 [00:22<01:00,  1.05s/it] 44%|████▍     | 44/100 [00:23<00:53,  1.04it/s] 45%|████▌     | 45/100 [00:23<00:42,  1.29it/s] 46%|████▌     | 46/100 [00:23<00:31,  1.72it/s] 47%|████▋     | 47/100 [00:24<00:25,  2.11it/s] 48%|████▊     | 48/100 [00:25<00:46,  1.13it/s] 50%|█████     | 50/100 [00:26<00:35,  1.40it/s] 51%|█████     | 51/100 [00:26<00:27,  1.76it/s] 52%|█████▏    | 52/100 [00:26<00:20,  2.33it/s] 54%|█████▍    | 54/100 [00:27<00:20,  2.19it/s] 55%|█████▌    | 55/100 [00:32<01:11,  1.59s/it] 56%|█████▌    | 56/100 [00:32<00:52,  1.18s/it] 57%|█████▋    | 57/100 [00:32<00:37,  1.15it/s] 58%|█████▊    | 58/100 [00:32<00:28,  1.45it/s] 59%|█████▉    | 59/100 [00:33<00:25,  1.62it/s] 60%|██████    | 60/100 [00:33<00:18,  2.15it/s] 61%|██████    | 61/100 [00:33<00:14,  2.75it/s] 62%|██████▏   | 62/100 [00:33<00:12,  3.03it/s] 63%|██████▎   | 63/100 [00:33<00:09,  3.73it/s] 64%|██████▍   | 64/100 [00:33<00:07,  4.50it/s] 66%|██████▌   | 66/100 [00:34<00:06,  5.37it/s] 68%|██████▊   | 68/100 [00:34<00:05,  6.18it/s] 69%|██████▉   | 69/100 [00:34<00:04,  6.28it/s] 71%|███████   | 71/100 [00:34<00:03,  7.25it/s] 72%|███████▏  | 72/100 [00:34<00:04,  6.97it/s] 73%|███████▎  | 73/100 [00:35<00:04,  5.97it/s] 75%|███████▌  | 75/100 [00:35<00:03,  6.71it/s] 76%|███████▌  | 76/100 [00:35<00:04,  5.62it/s] 77%|███████▋  | 77/100 [00:35<00:03,  6.24it/s] 78%|███████▊  | 78/100 [00:35<00:03,  6.13it/s] 79%|███████▉  | 79/100 [00:35<00:03,  6.36it/s] 80%|████████  | 80/100 [00:36<00:03,  6.38it/s] 81%|████████  | 81/100 [00:36<00:02,  6.54it/s] 83%|████████▎ | 83/100 [00:36<00:02,  7.95it/s] 84%|████████▍ | 84/100 [00:36<00:01,  8.28it/s] 86%|████████▌ | 86/100 [00:36<00:01,  8.74it/s] 87%|████████▋ | 87/100 [00:36<00:01,  8.98it/s] 88%|████████▊ | 88/100 [00:37<00:01,  6.23it/s] 89%|████████▉ | 89/100 [00:37<00:01,  6.50it/s] 90%|█████████ | 90/100 [00:37<00:01,  5.42it/s] 92%|█████████▏| 92/100 [00:37<00:01,  6.81it/s] 93%|█████████▎| 93/100 [00:37<00:01,  5.19it/s] 94%|█████████▍| 94/100 [00:37<00:01,  5.84it/s] 95%|█████████▌| 95/100 [00:38<00:00,  6.47it/s] 97%|█████████▋| 97/100 [00:38<00:00,  7.86it/s] 99%|█████████▉| 99/100 [00:38<00:00,  8.07it/s]100%|██████████| 100/100 [00:38<00:00,  7.70it/s]100%|██████████| 100/100 [00:38<00:00,  2.59it/s]
-HiEve Preprocessing took 0:00:39
-# of parameters: 359559172
-Total steps: [number of batches] x [number of epochs] = 23720
-
-======== Epoch 1 / 40 ========
-Training...
-Traceback (most recent call last):
-  File "main.py", line 295, in <module>
-    hieve_exp.train()
-  File "/mnt/cogcomp-archive/shared/why16gzl/Repositories/JointConstrainedLearning/exp.py", line 107, in train
-    alpha_logits, beta_logits, gamma_logits, loss = self.model(x_sent, y_sent, z_sent, x_position, y_position, z_position, xy, yz, xz, flag, loss_out = True)
-  File "/shared/why16gzl/conda/miniconda38/envs/EMNLP_env/lib/python3.7/site-packages/torch/nn/modules/module.py", line 722, in _call_impl
-    result = self.forward(*input, **kwargs)
-  File "/shared/why16gzl/conda/miniconda38/envs/EMNLP_env/lib/python3.7/site-packages/torch/nn/parallel/data_parallel.py", line 155, in forward
-    outputs = self.parallel_apply(replicas, inputs, kwargs)
-  File "/shared/why16gzl/conda/miniconda38/envs/EMNLP_env/lib/python3.7/site-packages/torch/nn/parallel/data_parallel.py", line 165, in parallel_apply
-    return parallel_apply(replicas, inputs, kwargs, self.device_ids[:len(replicas)])
-  File "/shared/why16gzl/conda/miniconda38/envs/EMNLP_env/lib/python3.7/site-packages/torch/nn/parallel/parallel_apply.py", line 85, in parallel_apply
-    output.reraise()
-  File "/shared/why16gzl/conda/miniconda38/envs/EMNLP_env/lib/python3.7/site-packages/torch/_utils.py", line 395, in reraise
-    raise self.exc_type(msg)
-RuntimeError: Caught RuntimeError in replica 0 on device 0.
-Original Traceback (most recent call last):
-  File "/shared/why16gzl/conda/miniconda38/envs/EMNLP_env/lib/python3.7/site-packages/torch/nn/parallel/parallel_apply.py", line 60, in _worker
-    output = module(*input, **kwargs)
-  File "/shared/why16gzl/conda/miniconda38/envs/EMNLP_env/lib/python3.7/site-packages/torch/nn/modules/module.py", line 722, in _call_impl
-    result = self.forward(*input, **kwargs)
-  File "/mnt/cogcomp-archive/shared/why16gzl/Repositories/JointConstrainedLearning/model.py", line 52, in forward
-    output_x = self.model(x_sent)[0]
-  File "/shared/why16gzl/conda/miniconda38/envs/EMNLP_env/lib/python3.7/site-packages/torch/nn/modules/module.py", line 722, in _call_impl
-    result = self.forward(*input, **kwargs)
-  File "/shared/why16gzl/conda/miniconda38/envs/EMNLP_env/lib/python3.7/site-packages/transformers/modeling_bert.py", line 734, in forward
-    encoder_attention_mask=encoder_extended_attention_mask,
-  File "/shared/why16gzl/conda/miniconda38/envs/EMNLP_env/lib/python3.7/site-packages/torch/nn/modules/module.py", line 722, in _call_impl
-    result = self.forward(*input, **kwargs)
-  File "/shared/why16gzl/conda/miniconda38/envs/EMNLP_env/lib/python3.7/site-packages/transformers/modeling_bert.py", line 408, in forward
-    hidden_states, attention_mask, head_mask[i], encoder_hidden_states, encoder_attention_mask
-  File "/shared/why16gzl/conda/miniconda38/envs/EMNLP_env/lib/python3.7/site-packages/torch/nn/modules/module.py", line 722, in _call_impl
-    result = self.forward(*input, **kwargs)
-  File "/shared/why16gzl/conda/miniconda38/envs/EMNLP_env/lib/python3.7/site-packages/transformers/modeling_bert.py", line 369, in forward
-    self_attention_outputs = self.attention(hidden_states, attention_mask, head_mask)
-  File "/shared/why16gzl/conda/miniconda38/envs/EMNLP_env/lib/python3.7/site-packages/torch/nn/modules/module.py", line 722, in _call_impl
-    result = self.forward(*input, **kwargs)
-  File "/shared/why16gzl/conda/miniconda38/envs/EMNLP_env/lib/python3.7/site-packages/transformers/modeling_bert.py", line 315, in forward
-    hidden_states, attention_mask, head_mask, encoder_hidden_states, encoder_attention_mask
-  File "/shared/why16gzl/conda/miniconda38/envs/EMNLP_env/lib/python3.7/site-packages/torch/nn/modules/module.py", line 722, in _call_impl
-    result = self.forward(*input, **kwargs)
-  File "/shared/why16gzl/conda/miniconda38/envs/EMNLP_env/lib/python3.7/site-packages/transformers/modeling_bert.py", line 217, in forward
-    mixed_query_layer = self.query(hidden_states)
-  File "/shared/why16gzl/conda/miniconda38/envs/EMNLP_env/lib/python3.7/site-packages/torch/nn/modules/module.py", line 722, in _call_impl
-    result = self.forward(*input, **kwargs)
-  File "/shared/why16gzl/conda/miniconda38/envs/EMNLP_env/lib/python3.7/site-packages/torch/nn/modules/linear.py", line 91, in forward
-    return F.linear(input, self.weight, self.bias)
-  File "/shared/why16gzl/conda/miniconda38/envs/EMNLP_env/lib/python3.7/site-packages/torch/nn/functional.py", line 1676, in linear
-    output = input.matmul(weight.t())
-RuntimeError: CUDA error: CUBLAS_STATUS_NOT_INITIALIZED when calling `cublasCreate(handle)`
-
