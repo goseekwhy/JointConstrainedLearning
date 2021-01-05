@@ -1,5 +1,13 @@
-Repository for "Joint Constrained Learning for Event-Event Relation Extraction" (EMNLP'20)
+#Joint Constrained Learning for Event-Event Relation Extraction
 
+This is the repository for the resources in EMNLP 2020 Paper "Joint Constrained Learning for Event-Event Relation Extraction". This repository contains the source code and datasets used in our paper.
+
+## Abstract
+
+Understanding  natural  language  involves  rec-ognizing  how  multiple  event  mentions  structurally and temporally interact with each otherIn  this  process,  one  can  induce  event  complexes that organize multi-granular events with temporal  order  and  membership  relations  interweaving  among  them.   Due  to the  lack  of jointly  labeled  data  for  these  relational  phenomena  and  the  restriction  on  the  structures they articulate, we propose a joint constrained learning framework for modeling event-event relations. Specifically, the framework enforces logical constraints within and across multiple temporal and subevent relations by converting these  constraints  into  differentiable  learning objectives. We show that our joint constrained learning approach effectively compensates forthe  lack  of  jointly  labeled  data,  and  outperforms SOTA methods on benchmarks for both temporal relation extraction and event hierarchy construction, replacing a commonly used but  more  expensive  global  inference  process. We also present a promising case study showing the effectiveness of our approach in inducing event complexes on an external corpus.
+
+## How to run the code
+`
 git clone https://github.com/why2011btv/JointConstrainedLearning.git
 conda env create -n conda-env -f environment.yml
 pip install requirements.txt
@@ -9,5 +17,9 @@ cd model_params
 mkdir HiEve_best
 mkdir MATRES_best
 cd ..
-nohup python3 main_aug.py gpu_0 batch_16 0.0000001 0920_0.rst epoch_40 MATRES add_loss_1 finetune_1 > output_redirect/0920_0.out 2>&1 &
-nohup python3 main_aug.py gpu_1 batch_500 0.001 0920_1.rst epoch_40 MATRES add_loss_1 finetune_0 > output_redirect/0920_1.out 2>&1 &
+`
+### Running experiments 
+`python3 main.py gpu_0 batch_16 0.0000001 0920_0.rst epoch_40 <SETTING> <LOSS> <FINETUNE>`
+SETTING: choose from "MATRES", "HiEve", "Joint"
+LOSS: choose from "add_loss_0", "add_loss_1"
+FINETUNE: choose from "finetune_0", "finetune_1"
