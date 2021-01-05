@@ -12,12 +12,12 @@ from sklearn.metrics import precision_recall_fscore_support, classification_repo
 import torch
 from torch.utils.tensorboard import SummaryWriter
 from torch.utils.data import Dataset, DataLoader
-from model_aug import *
+from model import *
 from metric import metric, CM_metric
 from exp import *
 
 torch.manual_seed(42)
-debugging = False
+debugging = True
 
 ### Read parameters ###
 if len(sys.argv) > 1:
@@ -30,10 +30,11 @@ writer = SummaryWriter(comment=rst_file_name.replace(".rst", ""))
 ### restore model ###
 model_params_dir = "./model_params/"
 HiEve_best_PATH = model_params_dir + "HiEve_best/" + rst_file_name.replace(".rst", ".pt")
-MATRES_best_PATH = model_params_dir + "MATRES_best/" + rst_file_name.replace(".rst", ".pt") # for storing model param in training
+MATRES_best_PATH = model_params_dir + "MATRES_best/" + rst_file_name.replace(".rst", ".pt") 
+# for storing model param in training
 load_model_path = "./model_params/" + dataset + "_best/" # for test
 
-if dataset == "HiEve" or dataset == "Joint":
+if dataset in ["HiEve", "Joint"]:
     # ========================
     #       HiEve Dataset
     # ========================
@@ -78,7 +79,7 @@ if dataset == "HiEve" or dataset == "Joint":
                         yz = my_dict["relation_dict"][(y, z)]["relation"]
                         xz = my_dict["relation_dict"][(x, z)]["relation"]
 
-                        to_append = x, y, z, \
+                        to_append = str(x), str(y), str(z), \
                                     x_sent, y_sent, z_sent, \
                                     x_position, y_position, z_position, \
                                     x_sent_pos, y_sent_pos, z_sent_pos, \
@@ -110,7 +111,7 @@ if dataset == "HiEve" or dataset == "Joint":
 
                     xy = my_dict["relation_dict"][(x, y)]["relation"]
 
-                    to_append = x, y, x, \
+                    to_append = str(x), str(y), str(z), \
                                 x_sent, y_sent, x_sent, \
                                 x_position, y_position, x_position, \
                                 x_sent_pos, y_sent_pos, x_sent_pos, \
@@ -132,7 +133,7 @@ if dataset == "HiEve" or dataset == "Joint":
     elapsed = format_time(time.time() - t0)
     print("HiEve Preprocessing took {:}".format(elapsed))
     
-if dataset == "MATRES" or dataset == "Joint":
+if dataset in ["MATRES", "Joint"]:
     # ========================
     #       MATRES Dataset
     # ========================
@@ -189,7 +190,6 @@ if dataset == "MATRES" or dataset == "Joint":
                                              x_position, y_position, z_position, \
                                              x_sent_pos, y_sent_pos, z_sent_pos, \
                                              xy, yz, xz, 1) # 1 means MATRES
-                                #print(to_append)
                                 train_set_MATRES.append(to_append)
 
         else:
@@ -267,30 +267,34 @@ if finetune:
     model = roberta_mlp(hidden_size, num_classes, MLP_size, dataset, add_loss)
 else:
     hidden_size = 256
-    model = BiLSTM_MLP(768, hidden_size, MLP_size, 1, num_classes, add_loss)
+    num_layers = 1
+    input_size = 768 # pre-trained word embeddings, roberta-base
+    model = BiLSTM_MLP(input_size, hidden_size, MLP_size, num_layers, num_classes, dataset, add_loss)
 model.to(cuda)
 model.zero_grad()
 
 def count_parameters(model):
     return sum(p.numel() for p in model.parameters() if p.requires_grad)
 print("# of parameters:", count_parameters(model))
+model_name = rst_file_name.replace(".rst", "") # to be designated after finding the best parameters
 
 # Total number of training steps is [number of batches] x [number of epochs]. 
 # (Note that this is not the same as the number of training samples).
 if dataset == "MATRES":
     total_steps = len(train_dataloader_MATRES) * epochs
-
-model_name = rst_file_name.replace(".rst", "") # to be designated after finding the best parameters
-
-if dataset == "MATRES":
+    print("Total steps: [number of batches] x [number of epochs] =", total_steps)
     matres_exp = exp(cuda, model, epochs, learning_rate, train_dataloader_MATRES, valid_dataloader_MATRES, test_dataloader_MATRES, None, None, finetune, dataset, MATRES_best_PATH, None, load_model_path, model_name)
     matres_exp.train()
     matres_exp.evaluate(test = True)
 elif dataset == "HiEve":
+    total_steps = len(train_dataloader_HIEVE) * epochs
+    print("Total steps: [number of batches] x [number of epochs] =", total_steps)
     hieve_exp = exp(cuda, model, epochs, learning_rate, train_dataloader_HIEVE, None, None, valid_dataloader_HIEVE, test_dataloader_HIEVE, finetune, dataset, None, HiEve_best_PATH, load_model_path, model_name)
     hieve_exp.train()
     hieve_exp.evaluate(test = True)
 elif dataset == "Joint":
+    total_steps = len(train_dataloader) * epochs
+    print("Total steps: [number of batches] x [number of epochs] =", total_steps)
     joint_exp = exp(cuda, model, epochs, learning_rate, train_dataloader, valid_dataloader_MATRES, test_dataloader_MATRES, valid_dataloader_HIEVE, test_dataloader_HIEVE, finetune, dataset, MATRES_best_PATH, HiEve_best_PATH, load_model_path, model_name)
     joint_exp.train()
     joint_exp.evaluate(test = True, eval_data = "MATRES")

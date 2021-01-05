@@ -89,58 +89,56 @@ class roberta_mlp(nn.Module):
         alpha_logits = self.fc2(self.relu(self.fc1(alpha_representation)))
         beta_logits = self.fc2(self.relu(self.fc1(beta_representation)))
         gamma_logits = self.fc2(self.relu(self.fc1(gamma_representation)))
+        
         if loss_out is None:
             return alpha_logits, beta_logits, gamma_logits
         else:
             loss = 0.0
             if self.dataset == "MATRES":
-                #print("calculating annotation loss")
                 loss += self.MATRES_anno_loss(alpha_logits, xy) + self.MATRES_anno_loss(beta_logits, yz) + self.MATRES_anno_loss(gamma_logits, xz)
                 if self.add_loss:
-                    #print("adding transitivity loss")
                     loss += self.transitivity_loss_T(alpha_logits, beta_logits, gamma_logits).sum()
 
             elif self.dataset == "HiEve":
-                #print("calculating annotation loss")
                 loss += self.HiEve_anno_loss(alpha_logits, xy) + self.HiEve_anno_loss(beta_logits, yz) + self.HiEve_anno_loss(gamma_logits, xz)
                 if self.add_loss:
-                    #print("adding transitivity loss")
                     loss += self.transitivity_loss_H(alpha_logits, beta_logits, gamma_logits).sum()
 
-            else:
+            elif self.dataset == "Joint":
                 for i in range(0, batch_size):
                     if flag[i] == 1:
-                        loss += self.MATRES_anno_loss(alpha_logits[i][4:], xy[i]) + self.MATRES_anno_loss(beta_logits[i][4:], yz[i]) + self.MATRES_anno_loss(gamma_logits[i][4:], xz[i])
+                        loss += self.MATRES_anno_loss(alpha_logits[i][4:].view([1, 4]), xy[i].view(1)) + self.MATRES_anno_loss(beta_logits[i][4:].view([1, 4]), yz[i].view(1)) + self.MATRES_anno_loss(gamma_logits[i][4:].view([1, 4]), xz[i].view(1))
                     elif flag[i] == 0:
-                        loss += self.HiEve_anno_loss(alpha_logits[i][0:4], xy[i]) + self.HiEve_anno_loss(beta_logits[i][0:4], yz[i]) + self.HiEve_anno_loss(gamma_logits[i][0:4], xz[i])
-                    if self.add_loss:
-                        loss += self.transitivity_loss_T(alpha_logits[4:], beta_logits[4:], gamma_logits[4:]).sum()
-                        loss += self.transitivity_loss_H(alpha_logits[0:4], beta_logits[0:4], gamma_logits[0:4]).sum()
-                        loss += self.cross_category_loss(alpha_logits, beta_logits, gamma_logits).sum()
+                        loss += self.HiEve_anno_loss(alpha_logits[i][0:4].view([1, 4]), xy[i].view(1)) + self.HiEve_anno_loss(beta_logits[i][0:4].view([1, 4]), yz[i].view(1)) + self.HiEve_anno_loss(gamma_logits[i][0:4].view([1, 4]), xz[i].view(1))
+                if self.add_loss:
+                    loss += self.transitivity_loss_T(alpha_logits[4:], beta_logits[4:], gamma_logits[4:]).sum()
+                    loss += self.transitivity_loss_H(alpha_logits[0:4], beta_logits[0:4], gamma_logits[0:4]).sum()
+                    loss += self.cross_category_loss(alpha_logits, beta_logits, gamma_logits).sum()
+            else:
+                raise ValueError("Currently not supporting this setting! -_-'")
 
             return alpha_logits, beta_logits, gamma_logits, loss
         
         
 # BiLSTM + MLP
 class BiLSTM_MLP(nn.Module):
-    def __init__(self, input_size, hidden_size, MLP_size, num_layers, num_classes, add_loss = True, freq = None, Sub = None, Mul = None, dataset = "HiEve"):
+    def __init__(self, input_size, hidden_size, MLP_size, num_layers, num_classes, dataset, add_loss = True, freq = None, Sub = None, Mul = None):
         super(BiLSTM_MLP, self).__init__()
         self.dataset = dataset
-        self.add_loss = add_loss
         self.Sub = Sub
         self.Mul = Mul
+        self.add_loss = add_loss
         self.hidden_size = hidden_size
         self.num_layers = num_layers
         self.lstm = nn.LSTM(input_size, hidden_size, num_layers, batch_first=True, bidirectional=True)
         self.num_classes = num_classes # 8: 4 for Hier, 4 for Temp
         self.hier_class_weights = torch.FloatTensor(hier_weights).cuda()
         self.temp_class_weights = torch.FloatTensor(temp_weights).cuda()
-        if dataset == "HiEve":
-            self.loss = nn.CrossEntropyLoss(weight=self.hier_class_weights)
-        elif dataset == "MATRES":
-            self.loss = nn.CrossEntropyLoss(weight=self.temp_class_weights)
+        self.HiEve_anno_loss = nn.CrossEntropyLoss(weight=self.hier_class_weights)
+        self.MATRES_anno_loss = nn.CrossEntropyLoss(weight=self.temp_class_weights)
         self.transitivity_loss_H = transitivity_loss_H_()
         self.transitivity_loss_T = transitivity_loss_T_()
+        self.cross_category_loss = cross_category_loss_()
         if freq is not None:
             self.fc1 = nn.Linear(hidden_size*4+1, MLP_size)  
         else:
@@ -199,15 +197,32 @@ class BiLSTM_MLP(nn.Module):
         alpha_logits = self.fc2(self.relu(self.fc1(alpha_representation)))
         beta_logits = self.fc2(self.relu(self.fc1(beta_representation)))
         gamma_logits = self.fc2(self.relu(self.fc1(gamma_representation)))
+        
         if loss_out is None:
             return alpha_logits, beta_logits, gamma_logits
         else:
-            loss = self.loss(alpha_logits, xy) + self.loss(beta_logits, yz) + self.loss(gamma_logits, xz)
-            if self.add_loss:
-                #print("adding transitivity loss")
-                if self.dataset == "MATRES":
+            loss = 0.0
+            if self.dataset == "MATRES":
+                loss += self.MATRES_anno_loss(alpha_logits, xy) + self.MATRES_anno_loss(beta_logits, yz) + self.MATRES_anno_loss(gamma_logits, xz)
+                if self.add_loss:
                     loss += self.transitivity_loss_T(alpha_logits, beta_logits, gamma_logits).sum()
-                elif self.dataset == "HiEve":
+
+            elif self.dataset == "HiEve":
+                loss += self.HiEve_anno_loss(alpha_logits, xy) + self.HiEve_anno_loss(beta_logits, yz) + self.HiEve_anno_loss(gamma_logits, xz)
+                if self.add_loss:
                     loss += self.transitivity_loss_H(alpha_logits, beta_logits, gamma_logits).sum()
-                #else: # Joint
+
+            elif self.dataset == "Joint":
+                for i in range(0, batch_size):
+                    if flag[i] == 1:
+                        loss += self.MATRES_anno_loss(alpha_logits[i][4:].view([1, 4]), xy[i].view(1)) + self.MATRES_anno_loss(beta_logits[i][4:].view([1, 4]), yz[i].view(1)) + self.MATRES_anno_loss(gamma_logits[i][4:].view([1, 4]), xz[i].view(1))
+                    elif flag[i] == 0:
+                        loss += self.HiEve_anno_loss(alpha_logits[i][0:4].view([1, 4]), xy[i].view(1)) + self.HiEve_anno_loss(beta_logits[i][0:4].view([1, 4]), yz[i].view(1)) + self.HiEve_anno_loss(gamma_logits[i][0:4].view([1, 4]), xz[i].view(1))
+                if self.add_loss:
+                    loss += self.transitivity_loss_T(alpha_logits[4:], beta_logits[4:], gamma_logits[4:]).sum()
+                    loss += self.transitivity_loss_H(alpha_logits[0:4], beta_logits[0:4], gamma_logits[0:4]).sum()
+                    loss += self.cross_category_loss(alpha_logits, beta_logits, gamma_logits).sum()
+            else:
+                raise ValueError("Currently not supporting this setting! -_-'")
+
             return alpha_logits, beta_logits, gamma_logits, loss
