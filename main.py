@@ -17,13 +17,14 @@ from metric import metric, CM_metric
 from exp import *
 
 torch.manual_seed(42)
-debugging = True
+debugging = False
 
 ### Read parameters ###
 if len(sys.argv) > 1:
-    gpu_num, batch_size, learning_rate, rst_file_name, epochs, dataset, add_loss, finetune = sys.argv[1][-1], int(sys.argv[2][6:]), float(sys.argv[3]), sys.argv[4], int(sys.argv[5][6:]), sys.argv[6], int(sys.argv[7][9:]), int(sys.argv[8][9:])
+    gpu_num, batch_size, learning_rate, rst_file_name, epochs, dataset, add_loss, finetune = sys.argv[1][4:], int(sys.argv[2][6:]), float(sys.argv[3]), sys.argv[4], int(sys.argv[5][6:]), sys.argv[6], int(sys.argv[7][9:]), int(sys.argv[8][9:])
     
 os.environ["CUDA_VISIBLE_DEVICES"] = gpu_num
+#os.environ['CUDA_LAUNCH_BLOCKING'] = 1 
 cuda = torch.device('cuda')
 writer = SummaryWriter(comment=rst_file_name.replace(".rst", ""))
 
@@ -272,6 +273,8 @@ else:
     model = BiLSTM_MLP(input_size, hidden_size, MLP_size, num_layers, num_classes, dataset, add_loss)
 model.to(cuda)
 model.zero_grad()
+if len(gpu_num) > 1:
+    model = nn.DataParallel(model) # you may try to run the experiments with multiple GPUs
 
 def count_parameters(model):
     return sum(p.numel() for p in model.parameters() if p.requires_grad)

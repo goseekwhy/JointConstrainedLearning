@@ -42,11 +42,18 @@ cd ..
 
 `<FINETUNE>`: choose from "finetune_0" (roberta-base emb w/o finetuning + BiLSTM), "finetune_1" (roberta-base emb with finetuning, no BiLSTM)
 
-#### Example command for "Joint Constrained Learning" with all constraints and RoBERTa finetuning
+### Example commands
+#### Command for "Joint Constrained Learning" with all constraints and RoBERTa finetuning
 `python3 main.py gpu_0 batch_16 0.0000001 0920_0.rst epoch_40 Joint add_loss_2 finetune_1`
 
-#### Example command for "Constrained Learning" on MATRES w/o RoBERTa finetuning
+#### Command for "Constrained Learning" on MATRES w/o RoBERTa finetuning
 `python3 main.py gpu_1 batch_500 0.001 0920_1.rst epoch_40 MATRES add_loss_1 finetune_0`
+
+#### Command for "Constrained Learning" on HiEve with RoBERTa finetuning (no hangups & output redirection)
+`nohup python3 main.py gpu_2 batch_16 0.0000001 0920_2.rst epoch_40 HiEve add_loss_1 finetune_1 > output_redirect/0920_2.out 2>&1 &`
+
+To look at the standard output: `cat output_redirect/0920_2.out`
+
 
 ## Reference
 Bibtex:
