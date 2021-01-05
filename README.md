@@ -45,7 +45,7 @@ cd ..
 #### Example command for "Joint Constrained Learning" with all constraints and RoBERTa finetuning
 `python3 main.py gpu_0 batch_16 0.0000001 0920_0.rst epoch_40 Joint add_loss_2 finetune_1`
 
-#### Example command for Constrained Learning on MATRES without RoBERTa finetuning
+#### Example command for "Constrained Learning" on MATRES w/o RoBERTa finetuning
 `python3 main.py gpu_1 batch_500 0.001 0920_1.rst epoch_40 MATRES add_loss_1 finetune_0`
 
 ## Reference
