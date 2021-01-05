@@ -49,6 +49,7 @@ cd ..
 `python3 main.py gpu_1 batch_500 0.001 0920_1.rst epoch_40 MATRES add_loss_1 finetune_0`
 
 ## Reference
+Bibtex:
 ```
 @inproceedings{WCZR20,
     author = {Haoyu Wang and Muhao Chen and Hongming Zhang and Dan Roth},
