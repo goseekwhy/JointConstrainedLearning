@@ -1,6 +1,6 @@
 # Joint Constrained Learning for Event-Event Relation Extraction
 
-This is the repository for the resources in EMNLP 2020 Paper "Joint Constrained Learning for Event-Event Relation Extraction". This repository contains the source code and datasets used in our paper.
+This is the repository for the resources in EMNLP 2020 Paper "Joint Constrained Learning for Event-Event Relation Extraction" (https://www.aclweb.org/anthology/2020.emnlp-main.51/). This repository contains the source code and datasets used in our paper.
 
 ## Abstract
 
