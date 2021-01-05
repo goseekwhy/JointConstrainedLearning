@@ -5,7 +5,7 @@ This is the repository for the resources in EMNLP 2020 Paper "Joint Constrained 
 ## Abstract
 
 Understanding  natural  language  involves  recognizing  how  multiple  event  mentions  structurally and temporally interact with each other. In  this  process,  one  can  induce  event  complexes that organize multi-granular events with temporal  order  and  membership  relations  interweaving  among  them.   Due  to the  lack  of jointly  labeled  data  for  these  relational  phenomena  and  the  restriction  on  the  structures they articulate, we propose a joint constrained learning framework for modeling event-event relations. Specifically, the framework enforces logical constraints within and across multiple temporal and subevent relations by converting these  constraints  into  differentiable  learning objectives. We show that our joint constrained learning approach effectively compensates for the  lack  of  jointly  labeled  data,  and  outperforms SOTA methods on benchmarks for both temporal relation extraction and event hierarchy construction, replacing a commonly used but  more  expensive  global  inference  process. We also present a promising case study showing the effectiveness of our approach in inducing event complexes on an external corpus.
-![GitHub Logo](https://github.com/why2011btv/JointConstrainedLearning/blob/master/Example.jpg?raw=true =250x)
+<img src="https://github.com/why2011btv/JointConstrainedLearning/blob/master/Example.jpg?raw=true" alt="drawing" width="200"/>
 
 ## How to run the code
 ```
