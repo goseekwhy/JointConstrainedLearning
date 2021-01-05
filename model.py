@@ -113,7 +113,8 @@ class roberta_mlp(nn.Module):
                 if self.add_loss:
                     loss += self.transitivity_loss_T(alpha_logits[4:], beta_logits[4:], gamma_logits[4:]).sum()
                     loss += self.transitivity_loss_H(alpha_logits[0:4], beta_logits[0:4], gamma_logits[0:4]).sum()
-                    loss += self.cross_category_loss(alpha_logits, beta_logits, gamma_logits).sum()
+                    if self.add_loss == 2:
+                        loss += self.cross_category_loss(alpha_logits, beta_logits, gamma_logits).sum()
             else:
                 raise ValueError("Currently not supporting this setting! -_-'")
 
@@ -221,7 +222,8 @@ class BiLSTM_MLP(nn.Module):
                 if self.add_loss:
                     loss += self.transitivity_loss_T(alpha_logits[4:], beta_logits[4:], gamma_logits[4:]).sum()
                     loss += self.transitivity_loss_H(alpha_logits[0:4], beta_logits[0:4], gamma_logits[0:4]).sum()
-                    loss += self.cross_category_loss(alpha_logits, beta_logits, gamma_logits).sum()
+                    if self.add_loss == 2:
+                        loss += self.cross_category_loss(alpha_logits, beta_logits, gamma_logits).sum()
             else:
                 raise ValueError("Currently not supporting this setting! -_-'")
 
