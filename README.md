@@ -21,6 +21,7 @@ mkdir model_params
 cd model_params
 mkdir HiEve_best
 mkdir MATRES_best
+mkdir Joint_best
 cd ..
 ```
 ### Running experiments in the paper
