@@ -17,7 +17,7 @@ from metric import metric, CM_metric
 from exp import *
 
 torch.manual_seed(42)
-debugging = True
+debugging = False
 
 ### Read parameters ###
 if len(sys.argv) > 1:
