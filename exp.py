@@ -14,6 +14,8 @@ from torch.utils.tensorboard import SummaryWriter
 from torch.utils.data import Dataset, DataLoader
 from metric import metric, CM_metric
 from transformers import RobertaModel
+import os.path
+from os import path
 
 def format_time(elapsed):
     '''
@@ -225,7 +227,7 @@ class exp:
                 print("  Confusion Matrix", file = self.file)
                 print(CM, file = self.file)
             if not test:
-                if F1 > self.MATRES_best_micro_F1:
+                if F1 > self.MATRES_best_micro_F1 or path.exists(self.MATRES_best_PATH) == False:
                     self.MATRES_best_micro_F1 = F1
                     self.MATRES_best_cm = CM
                     ### save model parameters to .pt file ###
@@ -248,7 +250,7 @@ class exp:
                 print(rst, file = self.file)
                 print("  F1_PC_CP_avg: {0:.3f}".format(F1_PC_CP_avg), file = self.file)
             if not test:
-                if F1_PC_CP_avg > self.HiEve_best_F1:
+                if F1_PC_CP_avg > self.HiEve_best_F1 or path.exists(self.HiEve_best_PATH) == False:
                     self.HiEve_best_F1 = F1_PC_CP_avg
                     self.HiEve_best_prfs = rst
                     torch.save(self.model, self.HiEve_best_PATH)

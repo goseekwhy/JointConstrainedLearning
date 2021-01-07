@@ -17,7 +17,7 @@ from metric import metric, CM_metric
 from exp import *
 
 torch.manual_seed(42)
-debugging = False
+debugging = True
 
 ### Read parameters ###
 if len(sys.argv) > 1:
@@ -226,12 +226,12 @@ if dataset in ["MATRES", "Joint"]:
     
 if debugging:
     if dataset in ["MATRES", "Joint"]:
-        train_set_MATRES = train_set_MATRES[0:16]
+        train_set_MATRES = train_set_MATRES[0:50]
         test_set_MATRES = train_set_MATRES
         valid_set_MATRES = train_set_MATRES
         print("Length of train_set_MATRES:", len(train_set_MATRES))
     if dataset in ["HiEve", "Joint"]:
-        train_set_HIEVE = train_set_HIEVE[0:16]
+        train_set_HIEVE = train_set_HIEVE[0:50]
         test_set_HIEVE = train_set_HIEVE
         valid_set_HIEVE = train_set_HIEVE
         print("Length of train_set_HIEVE:", len(train_set_HIEVE))
@@ -291,13 +291,13 @@ if dataset == "MATRES":
     print("Total steps: [number of batches] x [number of epochs] =", total_steps)
     matres_exp = exp(cuda, model, epochs, learning_rate, train_dataloader_MATRES, valid_dataloader_MATRES, test_dataloader_MATRES, None, None, finetune, dataset, MATRES_best_PATH, None, None, model_name)
     matres_exp.train()
-    matres_exp.evaluate(test = True)
+    matres_exp.evaluate(eval_data = "MATRES", test = True)
 elif dataset == "HiEve":
     total_steps = len(train_dataloader_HIEVE) * epochs
     print("Total steps: [number of batches] x [number of epochs] =", total_steps)
     hieve_exp = exp(cuda, model, epochs, learning_rate, train_dataloader_HIEVE, None, None, valid_dataloader_HIEVE, test_dataloader_HIEVE, finetune, dataset, None, HiEve_best_PATH, None, model_name)
     hieve_exp.train()
-    hieve_exp.evaluate(test = True)
+    hieve_exp.evaluate(eval_data = "HiEve", test = True)
 elif dataset == "Joint":
     total_steps = len(train_dataloader) * epochs
     print("Total steps: [number of batches] x [number of epochs] =", total_steps)
