@@ -15,13 +15,12 @@ Understanding natural language involves recognizing how multiple event mentions 
 ```
 git clone https://github.com/why2011btv/JointConstrainedLearning.git
 conda env create -n conda-env -f environment.yml
-pip install requirements.txt
+pip install -r requirements.txt
 
 mkdir model_params
 cd model_params
 mkdir HiEve_best
 mkdir MATRES_best
-mkdir Joint_best
 cd ..
 ```
 ### Running experiments in the paper

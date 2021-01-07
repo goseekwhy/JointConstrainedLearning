@@ -32,8 +32,7 @@ writer = SummaryWriter(comment=rst_file_name.replace(".rst", ""))
 model_params_dir = "./model_params/"
 HiEve_best_PATH = model_params_dir + "HiEve_best/" + rst_file_name.replace(".rst", ".pt")
 MATRES_best_PATH = model_params_dir + "MATRES_best/" + rst_file_name.replace(".rst", ".pt") 
-# for storing model param in training
-load_model_path = "./model_params/" + dataset + "_best/" # for test
+#load_model_path = model_params_dir + dataset + "_best/" # for manual test
 
 if dataset in ["HiEve", "Joint"]:
     # ========================
@@ -226,14 +225,18 @@ if dataset in ["MATRES", "Joint"]:
     print("MATRES Preprocessing took {:}".format(elapsed)) 
     
 if debugging:
-    if dataset == "MATRES":
-        train_set_MATRES = train_set_MATRES[0:100]
+    if dataset in ["MATRES", "Joint"]:
+        train_set_MATRES = train_set_MATRES[0:16]
         test_set_MATRES = train_set_MATRES
         valid_set_MATRES = train_set_MATRES
-    elif dataset == "HiEve":
-        train_set_HIEVE = train_set_HIEVE[0:100]
+        print("Length of train_set_MATRES:", len(train_set_MATRES))
+    if dataset in ["HiEve", "Joint"]:
+        train_set_HIEVE = train_set_HIEVE[0:16]
         test_set_HIEVE = train_set_HIEVE
         valid_set_HIEVE = train_set_HIEVE
+        print("Length of train_set_HIEVE:", len(train_set_HIEVE))
+        
+        
     
 # ==============================================================
 #      Use DataLoader to convert to Pytorch acceptable form
@@ -286,21 +289,21 @@ model_name = rst_file_name.replace(".rst", "") # to be designated after finding 
 if dataset == "MATRES":
     total_steps = len(train_dataloader_MATRES) * epochs
     print("Total steps: [number of batches] x [number of epochs] =", total_steps)
-    matres_exp = exp(cuda, model, epochs, learning_rate, train_dataloader_MATRES, valid_dataloader_MATRES, test_dataloader_MATRES, None, None, finetune, dataset, MATRES_best_PATH, None, load_model_path, model_name)
+    matres_exp = exp(cuda, model, epochs, learning_rate, train_dataloader_MATRES, valid_dataloader_MATRES, test_dataloader_MATRES, None, None, finetune, dataset, MATRES_best_PATH, None, None, model_name)
     matres_exp.train()
     matres_exp.evaluate(test = True)
 elif dataset == "HiEve":
     total_steps = len(train_dataloader_HIEVE) * epochs
     print("Total steps: [number of batches] x [number of epochs] =", total_steps)
-    hieve_exp = exp(cuda, model, epochs, learning_rate, train_dataloader_HIEVE, None, None, valid_dataloader_HIEVE, test_dataloader_HIEVE, finetune, dataset, None, HiEve_best_PATH, load_model_path, model_name)
+    hieve_exp = exp(cuda, model, epochs, learning_rate, train_dataloader_HIEVE, None, None, valid_dataloader_HIEVE, test_dataloader_HIEVE, finetune, dataset, None, HiEve_best_PATH, None, model_name)
     hieve_exp.train()
     hieve_exp.evaluate(test = True)
 elif dataset == "Joint":
     total_steps = len(train_dataloader) * epochs
     print("Total steps: [number of batches] x [number of epochs] =", total_steps)
-    joint_exp = exp(cuda, model, epochs, learning_rate, train_dataloader, valid_dataloader_MATRES, test_dataloader_MATRES, valid_dataloader_HIEVE, test_dataloader_HIEVE, finetune, dataset, MATRES_best_PATH, HiEve_best_PATH, load_model_path, model_name)
+    joint_exp = exp(cuda, model, epochs, learning_rate, train_dataloader, valid_dataloader_MATRES, test_dataloader_MATRES, valid_dataloader_HIEVE, test_dataloader_HIEVE, finetune, dataset, MATRES_best_PATH, HiEve_best_PATH, None, model_name)
     joint_exp.train()
-    joint_exp.evaluate(test = True, eval_data = "MATRES")
-    joint_exp.evaluate(test = True, eval_data = "HiEve")
+    joint_exp.evaluate(eval_data = "HiEve", test = True)
+    joint_exp.evaluate(eval_data = "MATRES", test = True)
 else:
     raise ValueError("Currently not supporting this dataset! -_-'")

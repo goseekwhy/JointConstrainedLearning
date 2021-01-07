@@ -9,11 +9,9 @@ from os.path import isfile, join
 from EventDataset import EventDataset
 import sys
 from sklearn.metrics import precision_recall_fscore_support, classification_report, accuracy_score, f1_score, confusion_matrix
-#from model_aug import *
 import torch
 from torch.utils.tensorboard import SummaryWriter
 from torch.utils.data import Dataset, DataLoader
-#from BiLSTM_MLP import *
 from metric import metric, CM_metric
 from transformers import RobertaModel
 
@@ -49,11 +47,11 @@ class exp:
         else:
             self.roberta_dim = 1024
             
-        self.MATRES_best_micro_F1 = 0.0
+        self.MATRES_best_micro_F1 = -1
         self.MATRES_best_cm = []
         self.MATRES_best_PATH = MATRES_best_PATH
         
-        self.HiEve_best_F1 = 0.0
+        self.HiEve_best_F1 = -1
         self.HiEve_best_prfs = []
         self.HiEve_best_PATH = HiEve_best_PATH
         
@@ -120,20 +118,24 @@ class exp:
             print("")
             print("  Total training loss: {0:.2f}".format(self.total_train_loss))
             print("  Training epoch took: {:}".format(training_time))
-            flag = self.evaluate(test = False)
+            if self.dataset in ["HiEve", "MATRES"]:
+                flag = self.evaluate(self.dataset)
+            else:
+                flag = self.evaluate("HiEve")
+                flag = self.evaluate("MATRES")
             if flag == 1:
                 self.best_epoch = epoch_i
         print("")
         print("Training complete!")
         print("Total training took {:} (h:mm:ss)".format(format_time(time.time()-total_t0)))
-        if self.dataset == "MATRES":
+        if self.dataset in ["MATRES", "Joint"]:
             print("  MATRES best micro F1: {0:.3f}".format(self.MATRES_best_micro_F1))
             print("  MATRES best confusion matrix:\n", self.MATRES_best_cm)
             print("  Dev best:", file = self.file)
             print("  MATRES best micro F1: {0:.3f}".format(self.MATRES_best_micro_F1), file = self.file)
             print("  MATRES best confusion matrix:", file = self.file)
             print(self.MATRES_best_cm, file = self.file)
-        if self.dataset == "HiEve":
+        if self.dataset in ["HiEve", "Joint"]:
             print("  HiEve best F1_PC_CP_avg: {0:.3f}".format(self.HiEve_best_F1))
             print("  HiEve best precision_recall_fscore_support:\n", self.HiEve_best_prfs)
             print("  Dev best:", file = self.file)
@@ -141,37 +143,38 @@ class exp:
             print("  HiEve best precision_recall_fscore_support:", file = self.file)
             print(self.HiEve_best_prfs, file = self.file)
             
-    def evaluate(self, test = False, eval_data = "MATRES"):
+    def evaluate(self, eval_data, test = False):
         # ========================================
         #             Validation / Test
         # ========================================
         # After the completion of each training epoch, measure our performance on
         # our validation set.
         # Also applicable to test set.
-
         t0 = time.time()
-        if self.dataset == "MATRES":
-            eval_data = "MATRES"
-        elif self.dataset == "HiEve":
-            eval_data = "HiEve"
             
         if test:
-            self.model = torch.load(self.load_model_path + self.model_name + ".pt")
+            if self.load_model_path:
+                self.model = torch.load(self.load_model_path + self.model_name + ".pt")
+            elif eval_data == "HiEve":
+                self.model = torch.load(self.HiEve_best_PATH)
+            else: # MATRES
+                self.model = torch.load(self.MATRES_best_PATH)
             self.model.to(self.cuda)
             print("")
-            print("loaded " + self.dataset + " best model:" + self.model_name + ".pt")
+            print("loaded " + eval_data + " best model:" + self.model_name + ".pt")
             print("(from epoch " + str(self.best_epoch) + " )")
-            print("Running Evaluation on Test Set...")
+            print("Running Evaluation on " + eval_data + " Test Set...")
             if eval_data == "MATRES":
                 dataloader = self.test_dataloader_MATRES
-            elif eval_data == "HiEve":
+            else:
                 dataloader = self.test_dataloader_HIEVE
         else:
+            # Evaluation
             print("")
             print("Running Evaluation on Validation Set...")
             if eval_data == "MATRES":
                 dataloader = self.valid_dataloader_MATRES
-            elif eval_data == "HiEve":
+            else:
                 dataloader = self.valid_dataloader_HIEVE
             
         self.model.eval()
@@ -221,7 +224,6 @@ class exp:
                 print("  F1: {0:.3f}".format(F1), file = self.file)
                 print("  Confusion Matrix", file = self.file)
                 print(CM, file = self.file)
-                self.file.close()
             if not test:
                 if F1 > self.MATRES_best_micro_F1:
                     self.MATRES_best_micro_F1 = F1
@@ -245,7 +247,6 @@ class exp:
                 print("  rst:", file = self.file)
                 print(rst, file = self.file)
                 print("  F1_PC_CP_avg: {0:.3f}".format(F1_PC_CP_avg), file = self.file)
-                self.file.close()
             if not test:
                 if F1_PC_CP_avg > self.HiEve_best_F1:
                     self.HiEve_best_F1 = F1_PC_CP_avg
