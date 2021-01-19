@@ -49,11 +49,11 @@ class exp:
         else:
             self.roberta_dim = 1024
             
-        self.MATRES_best_micro_F1 = -1
+        self.MATRES_best_micro_F1 = -0.000001
         self.MATRES_best_cm = []
         self.MATRES_best_PATH = MATRES_best_PATH
         
-        self.HiEve_best_F1 = -1
+        self.HiEve_best_F1 = -0.000001
         self.HiEve_best_prfs = []
         self.HiEve_best_PATH = HiEve_best_PATH
         
@@ -144,6 +144,7 @@ class exp:
             print("  HiEve best F1_PC_CP_avg: {0:.3f}".format(self.HiEve_best_F1), file = self.file)
             print("  HiEve best precision_recall_fscore_support:", file = self.file)
             print(self.HiEve_best_prfs, file = self.file)
+        return self.MATRES_best_micro_F1, self.HiEve_best_F1
             
     def evaluate(self, eval_data, test = False):
         # ========================================
