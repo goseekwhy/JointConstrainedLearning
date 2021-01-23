@@ -16,7 +16,9 @@ Understanding natural language involves recognizing how multiple event mentions 
 git clone https://github.com/why2011btv/JointConstrainedLearning.git
 conda env create -n conda-env -f environment.yml
 pip install -r requirements.txt
+python spacy -m en-core-web-sm
 
+mkdir rst_file
 mkdir model_params
 cd model_params
 mkdir HiEve_best
@@ -24,13 +26,11 @@ mkdir MATRES_best
 cd ..
 ```
 ### Running experiments in the paper
-`python3 main.py <DEVICE_ID> <BATCH_SIZE> <LEARNING_RATE> <RESULT_FILE> <EPOCH> <SETTING> <LOSS> <FINETUNE>`
+`python3 main.py <DEVICE_ID> <BATCH_SIZE> <RESULT_FILE> <EPOCH> <SETTING> <LOSS> <FINETUNE> <MAX_EVALS> <DEBUGGING>`
 
 `<DEVICE_ID>`: choose from "gpu_0", "gpu_1", "gpu_5,6,7", etc.
 
 `<BATCH_SIZE>`: choose from "batch_16" (with finetuning), "batch_500" (w/o finetuning)
-
-`<LEARNING_RATE>`: choose from "0.0000001" (with finetuning), "0.001" (w/o finetuning)
 
 `<RESULT_FILE>`: for example, "0920_0.rst"
 
@@ -42,17 +42,15 @@ cd ..
 
 `<FINETUNE>`: choose from "finetune_0" (roberta-base emb w/o finetuning + BiLSTM), "finetune_1" (roberta-base emb with finetuning, no BiLSTM)
 
+`<MAX_EVALS>`: number of times for hyperopt to run experiments for finding best hyperparameters, choose from "MAX_EVALS_50", etc.
+
+`<DEBUGGING>`: whether to debug, choose from "debugging_0", "debugging_1"
+
 ### Example commands
 #### Command for "Joint Constrained Learning" with all constraints and RoBERTa finetuning
-`python3 main.py gpu_0 batch_16 0.0000001 0920_0.rst epoch_40 Joint add_loss_2 finetune_1`
+`nohup python3 main.py gpu_0 batch_16 0118_0.rst epoch_40 Joint add_loss_2 finetune_1 MAX_EVALS_50 debugging_0 > output_redirect/0118_0.out 2>&1 &`
 
-#### Command for "Constrained Learning" on MATRES w/o RoBERTa finetuning
-`python3 main.py gpu_1 batch_500 0.001 0920_1.rst epoch_40 MATRES add_loss_1 finetune_0`
-
-#### Command for "Constrained Learning" on HiEve with RoBERTa finetuning (no hangups & output redirection)
-`nohup python3 main.py gpu_2 batch_16 0.0000001 0920_2.rst epoch_40 HiEve add_loss_1 finetune_1 > output_redirect/0920_2.out 2>&1 &`
-
-To look at the standard output: `cat output_redirect/0920_2.out`
+To look at the standard output: `cat output_redirect/0118_0.out`
 
 
 ## Reference
